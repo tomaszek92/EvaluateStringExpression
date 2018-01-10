@@ -7,7 +7,7 @@ namespace EvaluateStringExpression.UnitTests
     public class StringExpressionEvaluatorUnitTests
     {
         [TestMethod]
-        public void StringExpressionEvaluatorUnitTests_Test1()
+        public void StringExpressionEvaluator_Test1_ShouldPass()
         {
             // Arrange
             const string expression = "4+5*2";
@@ -20,7 +20,7 @@ namespace EvaluateStringExpression.UnitTests
         }
 
         [TestMethod]
-        public void StringExpressionEvaluatorUnitTests_Test2()
+        public void StringExpressionEvaluator_Test2_ShouldPass()
         {
             // Arrange
             const string expression = "4+5/2";
@@ -33,7 +33,7 @@ namespace EvaluateStringExpression.UnitTests
         }
 
         [TestMethod]
-        public void StringExpressionEvaluatorUnitTests_Test3()
+        public void StringExpressionEvaluator_Test3_ShouldPass()
         {
             // Arrange
             const string expression = "4+5/2-1";
@@ -46,7 +46,7 @@ namespace EvaluateStringExpression.UnitTests
         }
 
         [TestMethod]
-        public void StringExpressionEvaluatorUnitTests_Test4()
+        public void StringExpressionEvaluatorTest4_ShouldPass()
         {
             // Arrange
             const string expression = "44+5-6/3*10-8";
@@ -56,6 +56,19 @@ namespace EvaluateStringExpression.UnitTests
 
             // Assert
             Assert.AreEqual(21m, result);
+        }
+
+        [TestMethod]
+        public void StringExpressionEvaluatorTest5_ShouldPass()
+        {
+            // Arrange
+            const string expression = "0*2+5*1/5-5";
+
+            // Act
+            decimal result = StringExpressionEvaluator.Evaluate(expression);
+
+            // Assert
+            Assert.AreEqual(-4m, result);
         }
     }
 }

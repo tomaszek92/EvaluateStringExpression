@@ -17,8 +17,6 @@ namespace EvaluateStringExpression.ConsoleApp
 
         public static decimal Evaluate(string expression)
         {
-            expression = expression.Replace(" ", "");
-
             (var mathOperations, var numbers) = PrepareData(expression);
 
             DoNextMathOperation(mathOperations, numbers);
@@ -33,17 +31,18 @@ namespace EvaluateStringExpression.ConsoleApp
             StringBuilder stringBuilder = new StringBuilder();
             foreach (char c in expression)
             {
-                if (Char.IsNumber(c))
+                if (Char.IsDigit(c))
                 {
                     stringBuilder.Append(c);
                 }
                 else
                 {
-                    mathOperations.Add(Convert(c));
+                    mathOperations.Add(ConvertCharToMathOperation(c));
                     numbers.Add(Decimal.Parse(stringBuilder.ToString()));
                     stringBuilder = new StringBuilder();
                 }
             }
+
             numbers.Add(Decimal.Parse(stringBuilder.ToString()));
             return (mathOperations, numbers);
         }
@@ -70,7 +69,7 @@ namespace EvaluateStringExpression.ConsoleApp
             DoNextMathOperation(mathOperations, numbers);
         }
 
-        private static MathOperation Convert(char c)
+        private static MathOperation ConvertCharToMathOperation(char c)
         {
             switch (c)
             {

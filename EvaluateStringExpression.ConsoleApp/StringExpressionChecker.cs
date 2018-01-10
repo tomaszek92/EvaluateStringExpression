@@ -19,10 +19,24 @@ namespace EvaluateStringExpression.ConsoleApp
             }
 
             List<string> possibleNumbers = new List<string>();
+            List<char> mathOperations = new List<char>();
             StringBuilder stringBuilder = new StringBuilder();
-            foreach (char c in expression)
+            for (int i = 0; i < expression.Length; i++)
             {
-                if (Char.IsNumber(c))
+                char c = expression[i];
+                if (i == 0 || i == expression.Length - 1)
+                {
+                    if (Char.IsDigit(c))
+                    {
+                        stringBuilder.Append(c);
+                        continue;
+                    }
+
+                    Console.WriteLine("Expresssion has to start and end with digit.");
+                    return false;
+                }
+
+                if (Char.IsDigit(c))
                 {
                     stringBuilder.Append(c);
                 }
@@ -33,27 +47,57 @@ namespace EvaluateStringExpression.ConsoleApp
                         Console.WriteLine($"'{c}' is not a allowed sign.");
                         return false;
                     }
-                    possibleNumbers.Add(stringBuilder.ToString());
+
+                    mathOperations.Add(c);
+                    var possibleNumber = stringBuilder.ToString();
+                    if (!String.IsNullOrWhiteSpace(possibleNumber))
+                    {
+                        possibleNumbers.Add(possibleNumber);
+                    }
+
                     stringBuilder = new StringBuilder();
                 }
             }
 
-            foreach (string possibleNumber in possibleNumbers)
+            possibleNumbers.Add(stringBuilder.ToString());
+
+            if (possibleNumbers.Count != mathOperations.Count + 1)
             {
-                if (Int32.TryParse(possibleNumber, out int number))
+                Console.WriteLine("Wrong count of numbers and math operations.");
+                return false;
+            }
+
+            if (!CheckDivisionByZero(possibleNumbers, mathOperations))
+            {
+                Console.WriteLine("You are trying to divide by zero. This is not allowed.");
+                return false;
+            }
+
+            return true;
+        }
+
+        private static bool CheckDivisionByZero(IEnumerable<string> possibleNumbers, IReadOnlyList<char> mathOperations)
+        {
+            List<decimal> numbers = possibleNumbers
+                .Select(Decimal.Parse)
+                .ToList();
+
+            var zeroNumberCount = numbers.Count(number => number == Decimal.Zero);
+
+            if (zeroNumberCount > 0)
+            {
+                IEnumerable<int> divisionIndexes = Enumerable
+                    .Range(0, mathOperations.Count)
+                    .Where(i => mathOperations[i] == '/');
+                foreach (int divisionIndex in divisionIndexes)
                 {
-                    if (number < 0)
+                    if (numbers[divisionIndex + 1] == Decimal.Zero)
                     {
-                        Console.WriteLine($"'{possibleNumber}' is not a non-negative.");
                         return false;
                     }
                 }
-                else
-                {
-                    Console.WriteLine($"'{possibleNumber}' is not a number.");
-                    return false;
-                }
             }
+
             return true;
         }
     }

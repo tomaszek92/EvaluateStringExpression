@@ -10,15 +10,21 @@ namespace EvaluateStringExpression.ConsoleApp
             {
                 Console.WriteLine("Type expression: ");
                 string expression = Console.ReadLine();
+                if (String.IsNullOrWhiteSpace(expression))
+                {
+                    Console.WriteLine("Expresion cannot be empty.");
+                    Console.WriteLine("----------------------------");
+                    continue;
+                }
 
-                bool isValid = StringExpressionChecker.IsValid(expression);
-
-                if (isValid)
+                expression = expression.Replace(" ", "");
+                if (StringExpressionChecker.IsValid(expression))
                 {
                     decimal result = StringExpressionEvaluator.Evaluate(expression);
-                    Console.WriteLine(result);
+                    Console.WriteLine($"Result: {result}");
                 }
-                Console.ReadKey();
+
+                Console.WriteLine("----------------------------");
             }
         }
     }
