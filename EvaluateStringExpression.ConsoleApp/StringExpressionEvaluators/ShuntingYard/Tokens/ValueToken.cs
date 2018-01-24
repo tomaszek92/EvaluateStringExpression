@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EvaluateStringExpression.ConsoleApp.StringExpressionEvaluators.ShuntingYard
+namespace EvaluateStringExpression.ConsoleApp.StringExpressionEvaluators.ShuntingYard.Tokens
 {
     public class ValueToken : Token
     {

@@ -1,8 +1,8 @@
-﻿namespace EvaluateStringExpression.ConsoleApp.StringExpressionEvaluators.ShuntingYard
+﻿namespace EvaluateStringExpression.ConsoleApp.StringExpressionEvaluators.ShuntingYard.Tokens
 {
     public class OperationToken : Token
     {
-        public MathOperation Operation { get; set; }
+        public MathOperation Operation { get; }
 
         public OperationToken(char c)
         {

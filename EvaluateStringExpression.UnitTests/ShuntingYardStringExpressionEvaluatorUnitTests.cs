@@ -7,6 +7,19 @@ namespace EvaluateStringExpression.UnitTests
     public class ShuntingYardStringExpressionEvaluatorUnitTests
     {
         [TestMethod]
+        public void ShuntingYardStringExpressionEvaluator_Test9_ShouldPass()
+        {
+            // Arrange
+            const string expression = "(10-5)*(2+3)";
+
+            // Act
+            decimal result = new ShuntingYardStringExpressionEvaluator().Evaluate(expression);
+
+            // Assert
+            Assert.AreEqual(25m, result);
+        }
+
+        [TestMethod]
         public void ShuntingYardStringExpressionEvaluator_Test8_ShouldPass()
         {
             // Arrange
@@ -23,13 +36,13 @@ namespace EvaluateStringExpression.UnitTests
         public void ShuntingYardStringExpressionEvaluator_Test6_ShouldPass()
         {
             // Arrange
-            const string expression = "4*5-2-2";
+            const string expression = "8+7+6+5*4-3-2-1";
 
             // Act
             decimal result = new ShuntingYardStringExpressionEvaluator().Evaluate(expression);
 
             // Assert
-            Assert.AreEqual(16m, result);
+            Assert.AreEqual(35m, result);
         }
 
         [TestMethod]

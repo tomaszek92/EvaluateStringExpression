@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using EvaluateStringExpression.ConsoleApp.StringExpressionEvaluators.ShuntingYard.Tokens;
 
 namespace EvaluateStringExpression.ConsoleApp.StringExpressionEvaluators.ShuntingYard
 {
@@ -10,20 +11,20 @@ namespace EvaluateStringExpression.ConsoleApp.StringExpressionEvaluators.Shuntin
         {
             List<Token> tokens = ConvertToTokens(expression);
             List<Token> outputTokens = new List<Token>();
-            Stack<OperationToken> operationTokens = new Stack<OperationToken>();
+            Stack<Token> stack = new Stack<Token>();
 
             foreach (Token token in tokens)
             {
                 if (token is OperationToken)
                 {
                     OperationToken operationToken = token as OperationToken;
-                    while (operationTokens.Count > 0)
+                    while (stack.Count > 0 && stack.Peek() is OperationToken)
                     {
-                        OperationToken peek = operationTokens.Peek();
+                        OperationToken peek = stack.Peek() as OperationToken;
                         int i = operationToken.GetPrecedence() - peek.GetPrecedence();
                         if (i <= 0)
                         {
-                            outputTokens.Add(operationTokens.Pop());
+                            outputTokens.Add(stack.Pop());
                         }
                         else
                         {
@@ -31,7 +32,25 @@ namespace EvaluateStringExpression.ConsoleApp.StringExpressionEvaluators.Shuntin
                         }
                     }
 
-                    operationTokens.Push(operationToken);
+                    stack.Push(operationToken);
+                }
+                else if (token is BracketToken)
+                {
+                    if ((token as BracketToken).BracketType == BracketType.Left)
+                    {
+                        stack.Push(token);
+                    }
+                    else
+                    {
+                        while (stack.Count > 0)
+                        {
+                            Token top = stack.Pop();
+                            if (!(top is BracketToken) || (top as BracketToken).BracketType != BracketType.Left)
+                            {
+                                outputTokens.Add(top);
+                            }
+                        }
+                    }
                 }
                 else
                 {
@@ -39,7 +58,7 @@ namespace EvaluateStringExpression.ConsoleApp.StringExpressionEvaluators.Shuntin
                 }
             }
 
-            foreach (var operatorToken in operationTokens)
+            foreach (var operatorToken in stack)
             {
                 outputTokens.Add(operatorToken);
             }
@@ -78,13 +97,35 @@ namespace EvaluateStringExpression.ConsoleApp.StringExpressionEvaluators.Shuntin
                 }
                 else
                 {
-                    tokens.Add(new ValueToken(stringBuilder.ToString()));
-                    tokens.Add(new OperationToken(c));
+                    string value = stringBuilder.ToString();
+                    if (!String.IsNullOrWhiteSpace(value))
+                    {
+                        tokens.Add(new ValueToken(value));
+                    }
+
+                    if (c == '(')
+                    {
+                        tokens.Add(new BracketToken(BracketType.Left));
+                    }
+                    else if (c == ')')
+                    {
+                        tokens.Add(new BracketToken(BracketType.Right));
+                    }
+                    else
+                    {
+                        tokens.Add(new OperationToken(c));
+                    }
+
                     stringBuilder = new StringBuilder();
                 }
             }
 
-            tokens.Add(new ValueToken(stringBuilder.ToString()));
+            string finalValue = stringBuilder.ToString();
+            if (!String.IsNullOrWhiteSpace(finalValue))
+            {
+                tokens.Add(new ValueToken(finalValue));
+            }
+
             return tokens;
         }
     }

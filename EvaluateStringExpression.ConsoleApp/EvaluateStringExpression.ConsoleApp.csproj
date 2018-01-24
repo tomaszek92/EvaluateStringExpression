@@ -52,9 +52,11 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringExpressionChecker.cs" />
-    <Compile Include="StringExpressionEvaluators\ShuntingYard\OperationToken.cs" />
-    <Compile Include="StringExpressionEvaluators\ShuntingYard\Token.cs" />
-    <Compile Include="StringExpressionEvaluators\ShuntingYard\ValueToken.cs" />
+    <Compile Include="StringExpressionEvaluators\ShuntingYard\Tokens\BracketToken.cs" />
+    <Compile Include="StringExpressionEvaluators\ShuntingYard\Tokens\BracketType.cs" />
+    <Compile Include="StringExpressionEvaluators\ShuntingYard\Tokens\OperationToken.cs" />
+    <Compile Include="StringExpressionEvaluators\ShuntingYard\Tokens\Token.cs" />
+    <Compile Include="StringExpressionEvaluators\ShuntingYard\Tokens\ValueToken.cs" />
     <Compile Include="StringExpressionEvaluators\Simple\SimpleStringExpressionEvaluator.cs" />
     <Compile Include="StringExpressionEvaluators\ShuntingYard\ShuntingYardStringExpressionEvaluator.cs" />
   </ItemGroup>
