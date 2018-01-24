@@ -1,4 +1,7 @@
 ﻿using System;
+using EvaluateStringExpression.ConsoleApp.StringExpressionEvaluators;
+using EvaluateStringExpression.ConsoleApp.StringExpressionEvaluators.ShuntingYard;
+using EvaluateStringExpression.ConsoleApp.StringExpressionEvaluators.Simple;
 
 namespace EvaluateStringExpression.ConsoleApp
 {
@@ -20,7 +23,9 @@ namespace EvaluateStringExpression.ConsoleApp
                 expression = expression.Replace(" ", "");
                 if (StringExpressionChecker.IsValid(expression))
                 {
-                    decimal result = StringExpressionEvaluator.Evaluate(expression);
+                    //IStringExpressionEvaluator stringExpressionEvaluator = new SimpleStringExpressionEvaluator();
+                    IStringExpressionEvaluator stringExpressionEvaluator = new ShuntingYardStringExpressionEvaluator();
+                    decimal result = stringExpressionEvaluator.Evaluate(expression);
                     Console.WriteLine($"Result: {result}");
                 }
 

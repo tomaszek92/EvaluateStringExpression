@@ -1,5 +1,4 @@
-﻿using System;
-using EvaluateStringExpression.ConsoleApp;
+﻿using EvaluateStringExpression.ConsoleApp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace EvaluateStringExpression.UnitTests

@@ -48,9 +48,10 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ShuntingYardStringExpressionEvaluatorUnitTests.cs" />
     <Compile Include="StringExpressionCheckerUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StringExpressionEvaluatorUnitTests.cs" />
+    <Compile Include="SimpleStringExpressionEvaluatorUnitTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
